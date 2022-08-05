@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://kit.fontawesome.com/1147679ae7.js"
+	crossorigin="anonymous"></script>
+
+<title>Document</title>
+</head>
+<body>
+
+
+
+
+
+
+	<header>
+
+		<div class="logo">
+			<img src="/images/logo.png" width="150px" height="50px">
+		</div>
+		<div class="menu">
+			<li><a href="">Home</a></li>
+			<li><a th:href="@{/admin/categories/addOrEdit}">Manage
+					Categories </a></li>
+			<li><a th:href="@{/admin/products/addOrEdit}">Manage
+					Products</a></li>
+			<li><a th:href="@{/admin/accounts/addOrEdit}">Manage
+					Account</a></li>
+			<li><a href="#">Manage Oders</a></li>
+			<li><a href="#">Manage Profile</a></li>
+
+		</div>
+		<div class="others">
+
+			<li><input placeholder="Tiềm kiếm" type="text"><i
+				class="fas fa-search"></i></li>
+			<li><i class="fas fa-paw"></i></li>
+			<li><i class="fas fa-user"></i></li>
+		</div>
+	</header>
+	<section id="Slider">
+		<div class="aspect-ratio-169">
+			<img src="/images/slider1.jpg"> 
+			<img src="/images/slider2.jpg">
+			<img src="/images/silder3.jpg">
+		</div>
+		<div class="dot-container">
+			<div class="dot active" active></div>
+			<div class="dot"></div>
+			<div class="dot"></div>
+		</div>
+	</section>
+	<footer> </footer>
+</body>
+<script type="text/javascript">
+                                    /* Chuyển trang */
+        const /* biến hằng */ imgPosition = document.querySelectorAll(".aspect-ratio-169 img")
+        const imgContainer = document.querySelector('.aspect-ratio-169')
+        const dotItem = document.querySelectorAll(".dot")
+        let imgNuber = imgPosition.length
+        let index = 0
+        //console.log(imgPosition)
+        imgPosition.forEach(function(image,index){
+            image.style.left = index*100 + "%"
+            dotItem[index].addEventListener("click",function(){
+                Slider(index)
+            })
+        })
+        function imgSlide(){
+            index++;
+            console.log(index)
+            if(index>=imgNuber){index=0}
+            Slider(index)
+        }
+        function Slider(index){
+            imgContainer.style.left = "-" +index*100+"%"
+        }
+        setInterval(imgSlide,5000)
+
+
+
+</script>
+</html>

@@ -1,0 +1,195 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/1147679ae7.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        
+        <div class="logo">
+        <img src="/images/logo.png" width="150px" height="50px">
+        </div>
+        <div class="menu"> 
+               <li><a href="" >Home</a>  
+                 
+                </li>
+                <li><a th:href="@{/admin/categories/addOrEdit}" >Manage Categories </a></li>
+                <li><a th:href="@{/admin/products/addOrEdit}" >Manage Products</a></li>
+                <li><a th:href="@{/admin/accounts/addOrEdit}" >Manage Account</a></li>
+               <li><a href="#" >Manage Oders</a></li>
+               <li><a href="#" >Manage Profile</a></li>
+               
+        </div>
+        <div class="others">
+        
+         <li><input placeholder="Tiềm kiếm" type="text"><i class="fas fa-search"></i></li>
+         <li><i class="fas fa-paw"></i></li>
+         <li><i class="fas fa-user"></i></li>
+        </div>
+    </header>
+    <section class="row" layout:fragment="content">
+        <div class="col mt-4">
+          <form action="/admin/products/saveOrUpdate" method="post" 
+           enctype="multipart/form-data" th:object="${product}">
+          <div class="card">
+            <div class="card-header">
+              <h2 th:text="${product.isEdit?'Edit Product' : 'Add New Product'}">Add new product</h2>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-7">
+                  <input type="hidden" th:field="*{isEdit}">
+                  <div class="form-group" th:if="${product.isEdit}">
+                    <label for="productId">Product ID:</label>
+                    <input type="text" class="form-control" name="productId" id="productId" 
+                    th:field="*{productId}"
+                    aria-describedby="productIdHid" placeholder="Product ID">
+                    <small id="productIdHid" class="form-text text-muted">Product is required</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" name="name" id="name" 
+                    th:field="*{name}"
+                    aria-describedby="helpId" placeholder="Name">
+                    <small id="helpId" class="form-text text-muted">Name is required</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="text" class="form-control" name="quantity" id="quantity" 
+                    th:field="*{quantity}"
+                    aria-describedby="quantityHid" placeholder="Quantyti">
+                    <small id="quantityHid" class="form-text text-muted">Quantity is required</small>
+                  </div>
+                  <div class="input-group form-group">
+                    <span class="input-group-text">Unit Price:</span>
+                    <input type="number" name="unitprice" id="unitPrice" th:field="*{unitPrice}" 
+                    class="form-control" placeholder="Unit Price">
+                    <span class="input-group-text">$</span>
+                  </div>
+                 
+                    <div class="form-group">
+                      <label for="CategoryId">Category</label>
+                      <select class="form-control" name="CategoryId" id="CategoryId"
+                      th:field="*{categoryId}">
+                        <option th:each="item : ${categories}" th:value="${item.categoryId}"
+                        th:text="${item.name}" th:selected="${item.categoryId==product.categoryId}">
+                        Category Name</option>
+                        
+                      </select>
+                    </div>
+                   
+                </div>
+                <div class="col-3">
+                  <script>
+                    function chooseFile(fileInput){
+                        if(fileInput.files && fileInput.files[0]){
+                            var reader = new FileReader();
+  
+                            reader.onload = function(e){
+                              $('#image').attr('src', e.target.result);
+                            }
+                            reader.readAsDataURL(fileInput.files[0]);
+                        }
+                    }
+                  </script>
+                  <img id="image" 
+                      th:src="${product.image!= null? '/admin/products/images/' + product.image : 'images/logo.png'}" 
+                      src="/images/logo.png" width="90%" 
+                      class="img-fluid" alt="">
+                  <div class="form-group">
+                    <label for="productImage">Image File</label>
+                    <input type="file" onchange="chooseFile(this)" class="form-control-file" name="imageFile" id="productImage" 
+                    placeholder="Product Image" aria-describedby="productImage">
+                    <small id="productImage" class="form-text text-muted">Product image is required</small>
+                  </div>
+                  <div class="input-group form-group">
+                    <span class="input-group-text">Discount</span>
+                    <input type="number" name="discount" id="discount" 
+                    th:field="*{discount}" class="form-control" placeholder="Discount">
+                    <span class="input-group-text"> % </span>
+                  </div>
+                  <div class="form-group">
+                    <label for="status">Status</label>
+                    <select class="form-control" name="status" id="status" th:field="*{status}">
+                      <option value="0">Out of stock</option>
+                      <option value="1">On Sale</option>
+                      <option value="2">Featured</option>
+                      <option value="3">Bestseller</option>
+                      <option value="4">Out Of Order</option>
+                    </select> 
+                  </div>
+                </div>
+  
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" name="description" 
+                    th:field="*{description}" id="description" rows="5"></textarea>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="card-footer text-muted">
+              <a th:href="@{/admin/products/add}" class="btn btn-success">New</a>
+              <button class="btn btn-primary"
+               th:text="${product.isEdit? 'Update' : 'Save'}" >Save</button> 
+              <a th:if="${product.isEdit}" 
+                 th:href="@{'/admin/products/delete' + ${product.productId}}" 
+                  class="btn btn-danger float-right">Delete</a>
+            </div>
+          </div>
+        </form>  
+        </div>
+      </section>
+ 
+    <footer>
+    </footer>
+</body>
+<script type="text/javascript">
+                                    /* Chuyển trang */
+        const /* biến hằng */ imgPosition = document.querySelectorAll(".aspect-ratio-169 img")
+        const imgContainer = document.querySelector('.aspect-ratio-169')
+        const dotItem = document.querySelectorAll(".dot")
+        let imgNuber = imgPosition.length
+        let index = 0
+        //console.log(imgPosition)
+        imgPosition.forEach(function(image,index){
+            image.style.left = index*100 + "%"
+            dotItem[index].addEventListener("click",function(){
+                Slider(index)
+            })
+        })
+        function imgSlide(){
+            index++;
+            console.log(index)
+            if(index>=imgNuber){index=0}
+            Slider(index)
+        }
+        function Slider(index){
+            imgContainer.style.left = "-" +index*100+"%"
+        }
+        setInterval(imgSlide,5000)
+
+
+
+</script>
+</html>
+  
+      
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>

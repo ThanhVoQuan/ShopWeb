@@ -1,0 +1,133 @@
+<!-- Bootstrap CSS -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://kit.fontawesome.com/1147679ae7.js"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<link th:href="@{/css/style.css}" rel="stylesheet">
+<title>Document</title>
+</head>
+<body>
+	<header>
+
+		<div class="logo">
+			<img src="/images/logo.png" width="150px" height="50px">
+		</div>
+		<div class="menu">
+			<li><a href="">Home</a></li>
+			<li><a th:href="@{/admin/categories/addOrEdit}" >Manage Categories </a></li>
+			<li><a th:href="@{/admin/products/addOrEdit}" >Manage Products</a></li>
+			<li><a th:href="@{/admin/accounts/addOrEdit}" >Manage Account</a></li>
+			<li><a href="#">Manage Oders</a></li>
+			<li><a href="#">Manage Profile</a></li>
+
+		</div>
+		<div class="others">
+
+			<li><input placeholder="Tiềm kiếm" type="text"><i class="fas fa-search"></i></li>
+			<li><i class="fas fa-paw"></i></li>
+			<li><i class="fas fa-user"></i></li>
+		</div>
+	</header>
+
+	<section class="row" layout:fragment="content">
+		<div class="col-4 offset-4 mt-4">
+			<form th:action="@{/alogin}" method="post" th:object="${account}">
+				<div class="card">
+					<div class="card-header">
+						<h2>Login</h2>
+					</div>
+					<div class="card-body">
+						<div th:if="${message != null}" class="alert alert-primary"
+							role="alert">
+							<i>[[${message}]]</i>
+						</div>
+						<div class="form-group">
+							<label for="username">Username</label> <input type="text"
+								class="form-control" th:field="*{username}" name="username"
+								id="username" aria-describedby="usernameHid"
+								placeholder="Username"> <small id="usernameHid"
+								class="form-text text-muted">Username is invalid</small>
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label> <input type="password"
+								class="form-control" th:field="*{password}" name="password"
+								id="password" aria-describedby="passwordHid"
+								placeholder="Password"> <small id="passwordHid"
+								class="form-text text-muted">Password is invalid</small>
+						</div>
+						<div class="form-check">
+							<label class="form-check-label"> <input type="checkbox"
+								class="form-check-input" th:field="*{rememberMe}" value="false">
+								Remember Me
+							</label>
+						</div>
+					</div>
+					<div class="card-footer text-muted">
+						<button class="btn btn-secondary">Reset</button>
+						<button class="btn btn-primary">
+							<i class="fas fa-sign-in-alt mr-1"></i>Login
+						</button>
+
+					</div>
+
+
+				</div>
+			</form>
+		</div>
+	</section>
+	<footer> </footer>
+</body>
+<script type="text/javascript">
+                                    /* Chuyển trang */
+        const /* biến hằng */ imgPosition = document.querySelectorAll(".aspect-ratio-169 img")
+        const imgContainer = document.querySelector('.aspect-ratio-169')
+        const dotItem = document.querySelectorAll(".dot")
+        let imgNuber = imgPosition.length
+        let index = 0
+        //console.log(imgPosition)
+        imgPosition.forEach(function(image,index){
+            image.style.left = index*100 + "%"
+            dotItem[index].addEventListener("click",function(){
+                Slider(index)
+            })
+        })
+        function imgSlide(){
+            index++;
+            console.log(index)
+            if(index>=imgNuber){index=0}
+            Slider(index)
+        }
+        function Slider(index){
+            imgContainer.style.left = "-" +index*100+"%"
+        }
+        setInterval(imgSlide,5000)
+
+
+
+</script>
+</html>
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+	crossorigin="anonymous"></script>
+</body>
+</html>

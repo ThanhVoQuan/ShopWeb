@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/1147679ae7.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+ 
+
+
+        
+
+ 
+    <header>
+        
+        <div class="logo">
+        <img src="/images/logo.png" width="150px" height="50px">
+        </div>
+        <div class="menu"> 
+               <li><a href="" >Home</a>  
+                 
+                </li>
+                <li><a th:href="@{/admin/categories/addOrEdit}" >Manage Categories </a></li>
+                <li><a th:href="@{/admin/products/addOrEdit}" >Manage Products</a></li>
+                <li><a th:href="@{/admin/accounts/addOrEdit}" >Manage Account</a></li>
+               <li><a href="#" >Manage Oders</a></li>
+               <li><a href="#" >Manage Profile</a></li>
+               
+        </div>
+        <div class="others">
+        
+         <li><input placeholder="Tiềm kiếm" type="text"><i class="fas fa-search"></i></li>
+         <li><i class="fas fa-paw"></i></li>
+         <li><i class="fas fa-user"></i></li>
+        </div>
+    </header>
+    <section class="row" layout:fragment="content">
+      <div class="col-6 offset-3 mt-4">
+          <form th:action="@{/admin/categories/saveOrUpdate}" method="post" th:object="${category}">
+          <div class="card">
+              <div class="card-header">
+                <h2>Category</h2>  
+              </div>
+              <div class="card-body">
+                <div th:if="${message != null}" class="alert alert-primary" role="alert">
+                  <i>[[${message}]]</i>
+              </div>
+                  <div class="form-group">
+                    <label for="">Category ID</label>
+                    <input type="hidden" th:field="*{isEdit}">
+                    <input type="text" class="form-control" th:field="*{categoryId}"
+                    aria-describedby="categoryHid" placeholder="Category ID" readonly>
+                    <small th:if="${#fields.hasErrors('categoryId')}" id="categoryHid" class="form-text text-muted"> Category is invalid</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="">Name</label>
+                    <input type="text" class="form-control" th:field="*{name}" id="name" 
+                    aria-describedby="nameHid" placeholder="Name">
+                    <small th:if="${#fields.hasErrors('name')}" id="nameHid" class="form-text text-muted">Name is invalid </small>
+                  </div>
+              </div>
+              <div class="card-footer text-muted">
+                  <button class="btn btn-secondary">Reset</button>
+                  <a th:href="@{/admin/categories}" class="btn btn-success">List Category</a>
+                  <button class="btn btn-primary"><i class="fas fa-save"></i> 
+                    <span th:if="${category.isEdit}">Update</span>
+                    <span th:unless="${category.isEdit}">Save</span>
+                  </button>
+              </div>
+          
+          
+          </div>
+      </form>
+      </div>
+    </section>
+    <footer>
+    </footer>
+</body>
+<script type="text/javascript">
+                                    /* Chuyển trang */
+        const /* biến hằng */ imgPosition = document.querySelectorAll(".aspect-ratio-169 img")
+        const imgContainer = document.querySelector('.aspect-ratio-169')
+        const dotItem = document.querySelectorAll(".dot")
+        let imgNuber = imgPosition.length
+        let index = 0
+        //console.log(imgPosition)
+        imgPosition.forEach(function(image,index){
+            image.style.left = index*100 + "%"
+            dotItem[index].addEventListener("click",function(){
+                Slider(index)
+            })
+        })
+        function imgSlide(){
+            index++;
+            console.log(index)
+            if(index>=imgNuber){index=0}
+            Slider(index)
+        }
+        function Slider(index){
+            imgContainer.style.left = "-" +index*100+"%"
+        }
+        setInterval(imgSlide,5000)
+
+
+
+</script>
+</html>
